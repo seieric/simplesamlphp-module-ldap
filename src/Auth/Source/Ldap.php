@@ -182,7 +182,8 @@ class Ldap extends UserPassBase
         $attributes = $this->ldapConfig->getOptionalValue(
             'attributes',
             // If specifically set to NULL return all attributes, if not set at all return nothing (safe default)
-            $this->ldapConfig->hasValue('attributes') ? null: [],
+            // Since it's impossible to retrieve NULL option directly, we need to check if its key exists
+            in_array('attributes', $this->ldapConfig->getOptions()) ? null: [],
         );
 
         if ($attributes === null) {
